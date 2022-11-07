@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 01-Nov-2022 às 04:17
+-- Tempo de geração: 07-Nov-2022 às 23:13
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -98,7 +98,8 @@ CREATE TABLE `tbendereco` (
 --
 
 INSERT INTO `tbendereco` (`idEndereco`, `logradouroEndereco`, `numeroEndereco`, `complementoEndereco`, `bairroEndereco`, `cidadeEndereco`, `ufEndereco`, `cepEndereco`) VALUES
-(1, 'R. da Lua\r\n', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480');
+(1, 'R. da Lua\r\n', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480'),
+(2, 'R. Tamoios\r\n', 399, NULL, 'Conceição\r\n', 'Diadema', 'SP', '09991-070');
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,8 @@ CREATE TABLE `tbenderecofunc` (
 --
 
 INSERT INTO `tbenderecofunc` (`idEnderecoFunc`, `idFunc`, `idEndereco`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -174,7 +176,8 @@ CREATE TABLE `tbfunc` (
 --
 
 INSERT INTO `tbfunc` (`idFunc`, `cpfFunc`, `rgFunc`, `nomeFunc`, `generoFunc`, `dataNascFunc`, `dataContratoFunc`, `naturalidadeFunc`, `emailFunc`, `telFunc`, `senhaFunc`, `idCargo`) VALUES
-(1, '123.456.987-12', '54.065.978-1', 'Clarice Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'downilolopes@gmail.com', '(11) 2702-2738', 'clarice123', 1);
+(1, '123.456.987-12', '54.065.978-1', 'Clarice Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'downilolopes@gmail.com', '(11) 2702-2738', 'clarice123', 1),
+(2, '133.447.988-21', '20.345.433-1', 'Cláudio Paulo Araújo', 'M', '1999-10-23', '2021-06-16', 'BA', 'claudio.paulo.araujo@gmail.com', '(11) 3907-6552', 'claudio123', 2);
 
 -- --------------------------------------------------------
 
@@ -200,7 +203,8 @@ CREATE TABLE `tbpedido` (
   `valorTotalPedido` decimal(10,0) NOT NULL,
   `dataPedido` datetime NOT NULL,
   `idCliente` int(11) NOT NULL,
-  `idPagamento` int(11) NOT NULL
+  `idPagamento` int(11) NOT NULL,
+  `idProduto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -297,8 +301,9 @@ ALTER TABLE `tbpagamento`
 --
 ALTER TABLE `tbpedido`
   ADD PRIMARY KEY (`idPedido`),
+  ADD KEY `tbpedido_ibfk_1` (`idPagamento`),
   ADD KEY `idCliente` (`idCliente`),
-  ADD KEY `tbpedido_ibfk_1` (`idPagamento`);
+  ADD KEY `idProduto` (`idProduto`);
 
 --
 -- Índices para tabela `tbproduto`
@@ -332,7 +337,7 @@ ALTER TABLE `tbcategoriaproduto`
 -- AUTO_INCREMENT de tabela `tbendereco`
 --
 ALTER TABLE `tbendereco`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tbenderecofornecedor`
@@ -344,7 +349,7 @@ ALTER TABLE `tbenderecofornecedor`
 -- AUTO_INCREMENT de tabela `tbenderecofunc`
 --
 ALTER TABLE `tbenderecofunc`
-  MODIFY `idEnderecoFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idEnderecoFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tbfornecedor`
@@ -356,7 +361,7 @@ ALTER TABLE `tbfornecedor`
 -- AUTO_INCREMENT de tabela `tbfunc`
 --
 ALTER TABLE `tbfunc`
-  MODIFY `idFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tbpagamento`
@@ -411,7 +416,9 @@ ALTER TABLE `tbfunc`
 -- Limitadores para a tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  ADD CONSTRAINT `tbpedido_ibfk_1` FOREIGN KEY (`idPagamento`) REFERENCES `tbpagamento` (`idPagamento`);
+  ADD CONSTRAINT `tbpedido_ibfk_1` FOREIGN KEY (`idPagamento`) REFERENCES `tbpagamento` (`idPagamento`),
+  ADD CONSTRAINT `tbpedido_ibfk_2` FOREIGN KEY (`idCliente`) REFERENCES `tbcliente` (`idCliente`),
+  ADD CONSTRAINT `tbpedido_ibfk_3` FOREIGN KEY (`idProduto`) REFERENCES `tbproduto` (`idProduto`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
