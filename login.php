@@ -1,3 +1,53 @@
+<?php 
+
+    session_start();
+    include("db.php");
+    include("funcoes.php");
+
+    if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+        $emailFunc = $_POST['emailFunc'];
+        $senhaFunc = $_POST['senhaFunc'];
+
+        if(!empty($emailFunc) && !empty($senhaFunc) && !is_numeric($emailFunc)){
+
+            //Busca no banco de dados
+            $query = "select * from tbfunc where emailFunc = '$emailFunc' limit 1";
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+
+                if($resultado && mysqli_num_rows($resultado) > 0){
+
+                    $dadosUsuario = mysqli_fetch_assoc($resultado);
+
+                    if($dadosUsuario['senhaFunc'] === $senhaFunc){
+
+                        $_SESSION['idFunc'] = $dadosUsuario['idFunc'];
+                        header("Location: telaInicial.php");
+                        die;
+
+                    }
+                }
+
+            }
+
+            ?>
+                <script type="text/javascript">alert('Informações Inválidas');</script>
+            <?php
+
+        }else{
+             
+            ?>
+                <script type="text/javascript">alert('Informações Inválidas');</script>
+            <?php
+            
+        }
+
+    }
+
+?>
+
 <html>
     <head>
         <link rel="stylesheet" href="estilo/bootstrap.min.css">
@@ -22,20 +72,22 @@
                 <div class="formDiv">
                     <h1 class="titulo" style="margin-top: 33%;">SEJA BEM-VINDO(A)</h1>
                     <h3 class="font2">Logue em sua conta para continuar</h3>
-                    <form action="telaInicial.php">
+
+                    <form method="POST">
                         <div class="form-group form">
-                            <input type="email" class="form-control inputLogin" placeholder="E-mail">
+                            <input type="email" name="emailFunc" class="form-control inputLogin" placeholder="E-mail">
                         </div>
                         <br>
                         <div class="form-group form">
-                            <input type="password" class="form-control inputLogin" placeholder="Senha">
+                            <input type="password" name="senhaFunc" class="form-control inputLogin" placeholder="Senha">
                         </div>
                         <br>
                         <div class="form-group form">
                             <label class="form-check-label esqueciSenha" >Esqueci minha senha</label>
-                            <button type="submit" class="loginBtn">LOGIN</button>
+                            <button type="submit" value="Login" class="loginBtn">LOGIN</button>
                         </div>
                     </form>
+
                 </div>
             </div>  
         </div>
