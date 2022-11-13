@@ -4,11 +4,12 @@ Tópicos do slide:
 2- Objetivo do projeto;
 3- Necessidade do negócio;
 4- Descrição do escopo;
-5- Equipe;
-6- Especificações técnicas;
-7- Diagrama de Atividades;
-8- Diagrama de Classes;
-9- Diagrama de Casos de Uso;
-10- Modelo Entidade-Relacionamento (MER)
-11- Apresentação do sistema;
-12- Códigos do sistema
+5- Especificações técnicas;
+6- Diagrama de Atividades;
+7- Diagrama de Classes;
+8- Diagrama de Casos de Uso;
+9- Modelo Entidade-Relacionamento (MER)
+10- Apresentação do sistema;
+11- Códigos do sistema;
+12- Automatizações implementadas;
+13- Futuras melhorias
