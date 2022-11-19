@@ -396,4 +396,146 @@
         }
     }
 
+    function adiciona_fornecedor($con, $dadosForn){
+        if(isset($_SESSION['idFunc'])){
+            
+            $query = "INSERT INTO tbfornecedor (nomeEmpresaFornecedor, nomeFornecedor, emailFornecedor, telFornecedor, cnpjFornecedor) 
+            VALUES ('".$dadosForn['nomeEmp']."', '".$dadosForn['nomeForn']."', '".$dadosForn['email']."', '".$dadosForn['telefone']."', '".$dadosForn['cnpj']."')";
+
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+
+                echo '<script type="text/javascript"> window.location.replace("fornecedores.php");</script>';
+
+            }
+
+
+        }
+    }
+
+    function edita_fornecedores($con, $dadosForn){
+        if(isset($_SESSION['idFunc'])){
+
+            $query = "UPDATE tbfornecedor SET nomeEmpresaFornecedor = '".$dadosForn['nomeEmp']."', nomeFornecedor = '".$dadosForn['nomeForn']."', emailFornecedor = '".$dadosForn['email']."', telFornecedor = '".$dadosForn['telefone']."', cnpjFornecedor = '".$dadosForn['cnpj']."' WHERE idFornecedor = ".$dadosForn['id']."";
+
+
+            if(mysqli_query($con, $query)){
+                echo '<script type="text/javascript"> window.location.replace("fornecedores.php");</script>';
+            }
+
+        }
+    }
+
+    function deleta_fornecedor($con, $id){
+        if(isset($_SESSION['idFunc'])){
+            $query = "DELETE FROM tbfornecedor WHERE idFornecedor = '$id'";
+
+            if(mysqli_query($con, $query)){
+                return true;
+            }else {
+                return false;
+            }
+            
+        }
+    }
+
+    function carrega_fornecedores($con){
+        if(isset($_SESSION['idFunc'])){
+
+            $query = "SELECT * FROM tbfornecedor";
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+
+                while($row = mysqli_fetch_array($resultado)){
+
+                    if (!empty($_POST['submit-editar'])) {
+                        
+                        $dadosForn['id'] = $_POST['idForn'];
+
+                        $dadosForn['nomeForn'] = $_POST['nomeForn'];
+                        $dadosForn['nomeEmp'] = $_POST['nomeEmpForn'];
+                        $dadosForn['email'] = $_POST['emailForn'];
+                        $dadosForn['telefone'] = $_POST['telefoneForn'];
+                        $dadosForn['cnpj'] = $_POST['cnpjForn'];
+                
+                        edita_fornecedores($con, $dadosForn);
+                
+                    }
+
+                    echo "
+                    <div class='modal fade' id='editarFornModal".$row['idFornecedor']."' tabindex='-1' aria-labelledby='editarFornModalLabel".$row['idFornecedor']."' aria-hidden='true'>
+                        <div class='modal-dialog modal-lg modal-dialog-centered'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                    <h5 class='modal-title' id='exampleModalLabel'>Cadastro de Fornecedor</h5>
+                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Fechar'></button>
+                                </div>
+                                <form method='POST'>
+                                    <div class='modal-body'>
+
+                                        <div class='row'>
+                                            <h5 class='modal-title'>Dados do Fornecedor</h5>
+                                            <input type='hidden' value='".$row['idFornecedor']."' name='idForn' id='idForn'>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col'>
+                                                <label for='recipient-name' class='col-form-label'>Nome do fornecedor:</label>
+                                                <input type='text' value='".$row['nomeFornecedor']."' placeholder='Insira o nome completo' name='nomeForn' class='form-control' id='nomeForn' required>
+                                            </div>
+                                            <div class='col-6'>
+                                                <label for='recipient-name' class='col-form-label'>Nome da empresa:</label>
+                                                <input type='text' value='".$row['nomeEmpresaFornecedor']."' place holder='Insira o nome completo' name='nomeEmpForn' class='form-control' id='nomeEmpForn' required>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <div class='row'>
+                                            <div class='col'>
+                                                <label for='recipient-name' class='col-form-label'>E-mail:</label>
+                                                <input type='email' value='".$row['emailFornecedor']."' placeholder='Insira o e-mail' name='emailForn' class='form-control' id='emailForn' required>
+                                            </div>
+                                        </div>
+
+                                        <div class='row'>
+                                            <div class='col'>
+                                                <label for='recipient-name' class='col-form-label'>Telefone:</label>
+                                                <input type='text' value='".$row['telFornecedor']."' placeholder='Insira um telefone' maxlength='20' name='telefoneForn' class='form-control' id='telefoneForn' required>
+                                            </div>
+                                            <div class='col-6'>
+                                                <label for='recipient-name' class='col-form-label'>CNPJ:</label>
+                                                <input type='text' value='".$row['cnpjFornecedor']."' placeholder='Insira o CNPJ'  maxlength='20' name='cnpjForn' class='form-control' id='cnpjForn' required>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <div class='modal-footer'>
+                                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+                                        <button type='submit' name='submit-editar' value='Alterar' class='btn btn-success'>Alterar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    ";
+
+                    echo "
+                    <tr>
+                        <td class='subtituloConteudo'>".$row['idFornecedor']."</td>
+                        <td class='subtituloConteudo'>".$row['nomeEmpresaFornecedor']."</td>
+                        <td class='subtituloConteudo'>".$row['nomeFornecedor']."</td>
+                        <td class='subtituloConteudo'>".$row['emailFornecedor']."</td>
+                        <td class='subtituloConteudo'>".$row['telFornecedor']."</td>
+                        <td class='subtituloConteudo'><img class='sidebarIcons' data-bs-toggle='modal' data-bs-target='#editarFornModal".$row['idFornecedor']."' src='estilo/icons/edit.png' width='18' height='18'> <img onclick='deletarForn(".$row['idFornecedor'].")' class='sidebarIcons' src='estilo/icons/trash.png' width='18' height='18'></div></td>
+                    </tr>
+                    ";
+
+                }
+            }
+
+        }
+    }
+
 ?>

@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') { // deletar
     $input = file_get_contents('php://input');
     $inputJson = json_decode($input);
 
-    echo deleta_funcionario($con, $inputJson->codigo);   
+    echo deleta_fornecedor($con, $inputJson->codigo);   
 
 }
 

@@ -62,7 +62,7 @@
         <link rel="icon" type="image/x-icon" href="estilo/imgs/Logo.ico">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>IGLU - Tela Inicial</title>
+        <title>IGLU - Funcionários</title>
     </head>
     <body>
         <div class="container container-fluid">
