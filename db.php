@@ -5,15 +5,15 @@ $userName = "root";
 $password = "";
 $dbName = "iglu";
 
-//create connection
+//Cria conexão
 
 $con = mysqli_connect($serverName, $userName, $password, $dbName);
 
 if(mysqli_connect_errno()){
-   // echo "Failed to connect!";
+   // echo "Falha para conectar!";
    
     exit();
 }
-//echo "Connection success!"
+//echo "Conexão realizada com sucesso!"
 
 ?>
