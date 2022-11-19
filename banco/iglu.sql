@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07-Nov-2022 às 23:13
+-- Tempo de geração: 19-Nov-2022 às 05:23
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -79,63 +79,6 @@ CREATE TABLE `tbcliente` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbendereco`
---
-
-CREATE TABLE `tbendereco` (
-  `idEndereco` int(11) NOT NULL,
-  `logradouroEndereco` varchar(150) NOT NULL,
-  `numeroEndereco` int(10) NOT NULL,
-  `complementoEndereco` varchar(50) DEFAULT NULL,
-  `bairroEndereco` varchar(100) NOT NULL,
-  `cidadeEndereco` varchar(150) NOT NULL,
-  `ufEndereco` varchar(100) NOT NULL,
-  `cepEndereco` varchar(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `tbendereco`
---
-
-INSERT INTO `tbendereco` (`idEndereco`, `logradouroEndereco`, `numeroEndereco`, `complementoEndereco`, `bairroEndereco`, `cidadeEndereco`, `ufEndereco`, `cepEndereco`) VALUES
-(1, 'R. da Lua\r\n', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480'),
-(2, 'R. Tamoios\r\n', 399, NULL, 'Conceição\r\n', 'Diadema', 'SP', '09991-070');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbenderecofornecedor`
---
-
-CREATE TABLE `tbenderecofornecedor` (
-  `idEnderecoFornecedor` int(11) NOT NULL,
-  `idFornecedor` int(11) NOT NULL,
-  `idEndereco` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tbenderecofunc`
---
-
-CREATE TABLE `tbenderecofunc` (
-  `idEnderecoFunc` int(11) NOT NULL,
-  `idFunc` int(11) NOT NULL,
-  `idEndereco` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `tbenderecofunc`
---
-
-INSERT INTO `tbenderecofunc` (`idEnderecoFunc`, `idFunc`, `idEndereco`) VALUES
-(1, 1, 1),
-(2, 2, 2);
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `tbfornecedor`
 --
 
@@ -147,7 +90,14 @@ CREATE TABLE `tbfornecedor` (
   `emailContatoFornecedor` varchar(150) NOT NULL,
   `telEmpresarialFornecedor` varchar(15) DEFAULT NULL,
   `telContatoFornecedor` varchar(15) NOT NULL,
-  `cnpjFornecedor` varchar(20) NOT NULL
+  `cnpjFornecedor` varchar(20) NOT NULL,
+  `logradouroEndereco` varchar(150) NOT NULL,
+  `numeroEndereco` int(10) NOT NULL,
+  `complementoEndereco` varchar(50) DEFAULT NULL,
+  `bairroEndereco` varchar(100) NOT NULL,
+  `cidadeEndereco` varchar(100) NOT NULL,
+  `ufEndereco` varchar(2) NOT NULL,
+  `cepEndereco` varchar(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -168,6 +118,13 @@ CREATE TABLE `tbfunc` (
   `emailFunc` varchar(150) NOT NULL,
   `telFunc` varchar(15) NOT NULL,
   `senhaFunc` char(12) NOT NULL,
+  `logradouroEndereco` varchar(150) NOT NULL,
+  `numeroEndereco` int(10) NOT NULL,
+  `complementoEndereco` varchar(50) DEFAULT NULL,
+  `bairroEndereco` varchar(100) NOT NULL,
+  `cidadeEndereco` varchar(100) NOT NULL,
+  `ufEndereco` varchar(2) NOT NULL,
+  `cepEndereco` varchar(12) DEFAULT NULL,
   `idCargo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -175,9 +132,12 @@ CREATE TABLE `tbfunc` (
 -- Extraindo dados da tabela `tbfunc`
 --
 
-INSERT INTO `tbfunc` (`idFunc`, `cpfFunc`, `rgFunc`, `nomeFunc`, `generoFunc`, `dataNascFunc`, `dataContratoFunc`, `naturalidadeFunc`, `emailFunc`, `telFunc`, `senhaFunc`, `idCargo`) VALUES
-(1, '123.456.987-12', '54.065.978-1', 'Clarice Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'downilolopes@gmail.com', '(11) 2702-2738', 'clarice123', 1),
-(2, '133.447.988-21', '20.345.433-1', 'Cláudio Paulo Araújo', 'M', '1999-10-23', '2021-06-16', 'BA', 'claudio.paulo.araujo@gmail.com', '(11) 3907-6552', 'claudio123', 2);
+INSERT INTO `tbfunc` (`idFunc`, `cpfFunc`, `rgFunc`, `nomeFunc`, `generoFunc`, `dataNascFunc`, `dataContratoFunc`, `naturalidadeFunc`, `emailFunc`, `telFunc`, `senhaFunc`, `logradouroEndereco`, `numeroEndereco`, `complementoEndereco`, `bairroEndereco`, `cidadeEndereco`, `ufEndereco`, `cepEndereco`, `idCargo`) VALUES
+(1, '123.456.987-12', '54.065.978-1', 'Clarice  Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'downilolopes@gmail.com', '(11) 2702-2738', 'clarice123', 'R. da Lua', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480', 1),
+(2, '133.447.988-21', '20.345.433-1', 'Cláudio Paulo Araújo', 'M', '1999-10-23', '1899-03-13', 'BA', 'claudio.paulo.araujo@gmail.com', '(11) 3907-6552', 'claudio123', 'R. Tamoios', 399, '', 'Conceição', 'Diadema', 'SP', '09991-070', 1),
+(3, '417.271.991-04', '40.599.014-3', 'Maria Carvalho Dias', 'F', '2002-04-14', '2021-08-12', 'SP', 'marcia.caroline@gmail.com', '(11) 2506-9252', 'marcia123', 'R. do Socialismo Científico', 100, NULL, 'Conceição', 'Diadema', 'SP', '09993-140', 2),
+(4, '137.921.230-05', '21.300.400-3', 'Rodrigo Juan Claudio', 'M', '1999-07-29', '2022-10-04', 'SP', 'rodrigoduarte06@gmail.com', '(11) 2668-9942', 'rodrigo123', 'R. Glauber Rocha', 40, NULL, 'Serraria', 'Diadema', 'SP', '09980-760', 2),
+(14, '137.921.230-05', '21.300.400-3', 'Teste', 'M', '1999-07-29', '2022-10-04', 'SP', 'teste@gmail.com', '(11) 2668-9942', 'teste', 'R. da Lua', 15, NULL, 'Serraria', 'Diadema', 'SP', '09981-480', 2);
 
 -- --------------------------------------------------------
 
@@ -217,6 +177,7 @@ CREATE TABLE `tbproduto` (
   `idProduto` int(11) NOT NULL,
   `nomeProduto` varchar(150) NOT NULL,
   `descricaoProduto` varchar(300) DEFAULT NULL,
+  `imagemProduto` varchar(255) NOT NULL,
   `dataVerificacaoProduto` date NOT NULL,
   `dataFabricacaoProduto` date NOT NULL,
   `qtdeProduto` int(11) NOT NULL,
@@ -254,28 +215,6 @@ ALTER TABLE `tbcategoriaproduto`
 --
 ALTER TABLE `tbcliente`
   ADD PRIMARY KEY (`idCliente`);
-
---
--- Índices para tabela `tbendereco`
---
-ALTER TABLE `tbendereco`
-  ADD PRIMARY KEY (`idEndereco`);
-
---
--- Índices para tabela `tbenderecofornecedor`
---
-ALTER TABLE `tbenderecofornecedor`
-  ADD PRIMARY KEY (`idEnderecoFornecedor`),
-  ADD KEY `idFornecedor` (`idFornecedor`),
-  ADD KEY `idEndereco` (`idEndereco`);
-
---
--- Índices para tabela `tbenderecofunc`
---
-ALTER TABLE `tbenderecofunc`
-  ADD PRIMARY KEY (`idEnderecoFunc`),
-  ADD KEY `idFunc` (`idFunc`),
-  ADD KEY `idEndereco` (`idEndereco`);
 
 --
 -- Índices para tabela `tbfornecedor`
@@ -334,24 +273,6 @@ ALTER TABLE `tbcategoriaproduto`
   MODIFY `idCategoriaProduto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tbendereco`
---
-ALTER TABLE `tbendereco`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de tabela `tbenderecofornecedor`
---
-ALTER TABLE `tbenderecofornecedor`
-  MODIFY `idEnderecoFornecedor` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbenderecofunc`
---
-ALTER TABLE `tbenderecofunc`
-  MODIFY `idEnderecoFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT de tabela `tbfornecedor`
 --
 ALTER TABLE `tbfornecedor`
@@ -361,7 +282,7 @@ ALTER TABLE `tbfornecedor`
 -- AUTO_INCREMENT de tabela `tbfunc`
 --
 ALTER TABLE `tbfunc`
-  MODIFY `idFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `tbpagamento`
@@ -391,20 +312,6 @@ ALTER TABLE `tbproduto`
 ALTER TABLE `tbcategoriaproduto`
   ADD CONSTRAINT `tbcategoriaproduto_ibfk_1` FOREIGN KEY (`idCategoria`) REFERENCES `tbcategoria` (`idCategoria`),
   ADD CONSTRAINT `tbcategoriaproduto_ibfk_2` FOREIGN KEY (`idProduto`) REFERENCES `tbproduto` (`idProduto`);
-
---
--- Limitadores para a tabela `tbenderecofornecedor`
---
-ALTER TABLE `tbenderecofornecedor`
-  ADD CONSTRAINT `tbenderecofornecedor_ibfk_1` FOREIGN KEY (`idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`),
-  ADD CONSTRAINT `tbenderecofornecedor_ibfk_2` FOREIGN KEY (`idEndereco`) REFERENCES `tbendereco` (`idEndereco`);
-
---
--- Limitadores para a tabela `tbenderecofunc`
---
-ALTER TABLE `tbenderecofunc`
-  ADD CONSTRAINT `tbenderecofunc_ibfk_1` FOREIGN KEY (`idFunc`) REFERENCES `tbfunc` (`idFunc`),
-  ADD CONSTRAINT `tbenderecofunc_ibfk_2` FOREIGN KEY (`idEndereco`) REFERENCES `tbendereco` (`idEndereco`);
 
 --
 -- Limitadores para a tabela `tbfunc`
