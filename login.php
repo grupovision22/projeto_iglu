@@ -25,7 +25,7 @@
                     if($dadosUsuario['senhaFunc'] === $senhaFunc){
 
                         $_SESSION['idFunc'] = $dadosUsuario['idFunc'];
-                        header("Location: telaInicial.php");
+                        echo '<script type="text/javascript"> window.location.replace("telaInicial.php");</script>';
                         die;
 
                     }
