@@ -538,4 +538,255 @@
         }
     }
 
+    function adiciona_produto($con, $dadosProd, $imgName, $imgTmp, $imgFolder){
+        if(isset($_SESSION['idFunc'])){
+            
+            $query = "INSERT INTO tbproduto (idFornecedor , nomeProduto, descricaoProduto, imagemProduto, dataVencimentoProduto, dataFabricacaoProduto, qtdeProduto, precoProduto, loteProduto) 
+            VALUES (".$dadosProd['FornecedorProd'].", '".$dadosProd['nomeProd']."', '".$dadosProd['descProd']."', '".$imgName."', '".$dadosProd['dataVenciProd']."', '".$dadosProd['dataFabriProd']."', ".$dadosProd['qntdProd'].", ".$dadosProd['precoProd'].", '".$dadosProd['loteProd']."')";
+
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+                move_uploaded_file($imgTmp, $imgFolder);
+                echo '<script type="text/javascript"> alert("'.$imgTmp.'");</script>';
+                //echo '<script type="text/javascript"> window.location.replace("estoque.php");</script>';
+
+            }
+
+
+        }
+    }
+
+    function lista_fornecedor($con){
+        if(isset($_SESSION['idFunc'])){
+            $fornecedores = "SELECT * FROM tbfornecedor";
+            $result = mysqli_query($con, $fornecedores);
+
+            if($result){
+                while($row = mysqli_fetch_array($result)){
+                    echo "<option value='".$row['idFornecedor']."'>".$row['nomeEmpresaFornecedor']."</option>";
+                }
+            }
+        }
+    }
+
+    function fornecedor_selected($id, $idForn){
+        if ($id == $idForn){
+            return "selected='selected'";
+        }else{
+            return "";
+        }
+    }
+
+    function lista_fornecedor_selecionado($con, $id){
+        if(isset($_SESSION['idFunc'])){
+            $fornecedores = "SELECT * FROM tbfornecedor";
+            $result = mysqli_query($con, $fornecedores);
+
+            if($result){
+                while($row = mysqli_fetch_array($result)){
+                    echo "<option ".fornecedor_selected($id, $row['idFornecedor'])." value='".$row['idFornecedor']."'>".$row['nomeEmpresaFornecedor']."</option>";
+                }
+            }
+        }
+    }
+
+    function edita_produtos($con, $dadosProd, $imgName, $imgTmp, $imgFolder){
+        if(isset($_SESSION['idFunc'])){
+
+            $query = "UPDATE tbproduto SET nomeProduto = '".$dadosProd['nomeProd']."', descricaoProduto = '".$dadosProd['descProd']."', imagemProduto = '".$imgName."', dataVencimentoProduto = '".$dadosProd['dataVenciProd']."', dataFabricacaoProduto = '".$dadosProd['dataFabriProd']."', qtdeProduto = ".$dadosProd['qntdProd'].", precoProduto = ".$dadosProd['precoProd'].", loteProduto = '".$dadosProd['loteProd']."' WHERE idProduto = ".$dadosProd['id']."";
+
+            if(mysqli_query($con, $query)){
+                if(move_uploaded_file($imgTmp, $imgFolder)){
+
+                    echo '<script type="text/javascript"> window.location.replace("estoque.php");</script>';
+
+                }
+            }
+
+        }
+    }
+
+    function deleta_produto($con, $id){
+        if(isset($_SESSION['idFunc'])){
+            $query = "DELETE FROM tbproduto WHERE idProduto = '$id'";
+
+            if(mysqli_query($con, $query)){
+                return true;
+            }else {
+                return false;
+            }
+            
+        }
+    }
+
+    function carrega_produto($con){
+        if(isset($_SESSION['idFunc'])){
+
+            $query = "SELECT * FROM tbproduto";
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+
+                while($row = mysqli_fetch_array($resultado)){
+
+                    $fornecedor = "SELECT * FROM tbfornecedor INNER JOIN tbproduto ON tbfornecedor.idFornecedor = tbproduto.idFornecedor WHERE tbproduto.idFornecedor = ".$row['idFornecedor']."";
+                    $query2 = mysqli_query($con, $fornecedor);
+
+                    if($query2 = mysqli_fetch_array($query2)){
+
+                        if (!empty($_POST['submit-editar'])) {
+                        
+                            $dadosProd['id'] = $_POST['idProd'];
+    
+                            $dadosProd['nomeProd'] = $_POST['nomeProd'];
+                            $dadosProd['FornecedorProd'] = $_POST['FornecedorProd'];
+                            $dadosProd['descProd'] = $_POST['descProd'];
+                            $dadosProd['dataVenciProd'] = $_POST['dataVenciProd'];
+                            $dadosProd['dataFabriProd'] = $_POST['dataFabriProd'];
+                            $dadosProd['precoProd'] = $_POST['precoProd'];
+                            $dadosProd['qntdProd'] = $_POST['qntdProd'];
+                            $dadosProd['loteProd'] = $_POST['loteProd'];
+
+                            $ImgNameProd = $_FILES['fotoProd']['name'];
+                            $ImgTmpNameProd = $_FILES['fotoProd']['tmp_name'];
+                            $folderImgProd = 'estilo/imgs/Produtos/'.$ImgNameProd;
+                    
+                            edita_produtos($con, $dadosProd, $ImgNameProd, $ImgTmpNameProd, $folderImgProd);
+                    
+                        }
+
+                        echo "
+                        <div class='modal fade' id='editarProdModal".$row['idProduto']."' tabindex='-1' aria-labelledby='editaProdModalLabel".$row['idProduto']."' aria-hidden='true'>
+                            <div class='modal-dialog modal-lg modal-dialog-centered'>
+                                <div class='modal-content'>
+                                    <div class='modal-header'>
+                                        <h5 class='modal-title' id='exampleModalLabel'>Edição de Produto</h5>
+                                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Fechar'></button>
+                                    </div>
+                                    <form method='POST' enctype='multipart/form-data'>
+                                        <div class='modal-body'>
+            
+                                            <div class='row'>
+                                                <input type='hidden' value='".$row['idProduto']."' name='idProd' id='idProd'>
+                                                <h5 class='modal-title'>Dados do Produto</h5>
+                                            </div>
+                                            <div class='row'>
+                                                <div class='col'>
+                                                    <label for='recipient-name' class='col-form-label'>Nome do produto:</label>
+                                                    <input type='text' value='".$row['nomeProduto']."' placeholder='Insira o nome completo' name='nomeProd' class='form-control' id='nomeForn' required>
+                                                </div>
+                                                <div class='col-6'>
+                                                    
+                                                    <label for='recipient-name' class='col-form-label'>Fornecedor:</label>
+                                                    <select class='form-select' name='FornecedorProd' id='FornecedorProd' aria-label='Default select example' required>
+                                                        <option>Selecione um fornecedor</option>";
+                                                       echo lista_fornecedor_selecionado($con, $row['idProduto']);
+                                                    echo "</select>
+                                                </div>
+                                            </div>
+            
+                                            <div class='row'>
+                                                <div class='col'>
+                                                    <label for='recipient-name' class='col-form-label'>Descrição do produto:</label>
+                                                    <textarea value='".$row['descricaoProduto']."' class='form-control' placeholder='Insira uma descrição para o produto' name='descProd' id='descProd' rows='3'></textarea>
+                                                </div>
+                                            </div>
+            
+                                            <div class='row'>
+                                                <div class='col-3'>
+                                                    <label for='recipient-name' class='col-form-label'>Data de fabricação:</label>
+                                                    <input value='".$row['dataFabricacaoProduto']."' name='dataFabriProd' id='dataFabriProd' class='form-control' type='date' required/>
+                                                </div>
+                                                <div class='col-3'>
+                                                    <label for='recipient-name' class='col-form-label'>Data de vencimento:</label>
+                                                    <input value='".$row['dataVencimentoProduto']."' name='dataVenciProd' id='dataVenciProd' class='form-control' type='date' required/>
+                                                </div>
+                                                <div class='col'>
+                                                    <label for='recipient-name' class='col-form-label'>Foto do produto:</label>
+                                                    <input value='".$row['imagemProduto']."' name='fotoProd' id='fotoProd' class='form-control' type='file' accept='image/png' required/>
+                                                </div>
+                                            </div>
+            
+                                            <div class='row'>
+                                                <div class='col-3'>
+                                                    <label for='recipient-name' class='col-form-label'>Preço do produto:</label>
+                                                    <input value='".$row['precoProduto']."' name='precoProd' id='precoProd' class='form-control' type='number' min='1' step='any' required/>
+                                                </div>
+                                                <div class='col-3'>
+                                                    <label for='recipient-name' class='col-form-label'>Quantidade do produto:</label>
+                                                    <input value='".$row['qtdeProduto']."' name='qntdProd' id='qntdProd' class='form-control' type='number' min='1' step='any' required/>
+                                                </div>
+                                                <div class='col'>
+                                                    <label for='recipient-name' class='col-form-label'>Lote do produto:</label>
+                                                    <input  value='".$row['loteProduto']."' name='loteProd' id='loteProd' class='form-control' type='text' required/>
+                                                </div>
+                                            </div>
+            
+                                        </div>
+                                        
+                                        <div class='modal-footer'>
+                                            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+                                            <button type='submit' name='submit-editar' value='Alterar' class='btn btn-success'>Alterar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        ";
+
+                        echo "
+                        <div class='col-3'>
+                            <div class='card'>
+                                <br>
+                                <div class='imgsCard divCard'>
+                                    <img src='estilo/imgs/Produtos/".$row['imagemProduto']."' style='margin-top: 18%;' class='imgsCard' width='90'>
+                                </div>
+                                <div class='card-body'>
+                                    <h5 class='card-title'>".$row['nomeProduto']."</h5>
+                                    <div class='row'>
+                                        <div class='col-6'>
+                                            <h6>Qntd(L):</h6>
+                                        </div>
+                                        <div class='col-6'>
+                                            <p class='card-text'>".$row['qtdeProduto']."L</p>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <div class='col-6'>
+                                            <h6>Preço:</h6>
+                                        </div>
+                                        <div class='col-6'>
+                                            <p class='card-text'>R$ ".$row['precoProduto']."</p>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <div class='col-6'>
+                                            <h6>Fornecedor:</h6>
+                                        </div>
+                                        <div class='col-6'>
+                                            <p class='card-text'>".$query2['nomeEmpresaFornecedor']."</p>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <div class='col-6'>
+                                            <img class='sidebarIcons imgsCard' data-bs-toggle='modal' data-bs-target='#editarProdModal".$row['idProduto']."' src='estilo/icons/edit.png' width='18' height='18'>
+                                        </div>
+                                        <div class='col-6'>
+                                            <img onclick='deletarProd(".$row['idProduto'].")' class='sidebarIcons imgsCard' src='estilo/icons/trash.png' width='18' height='18'>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>  
+                        </div>
+                        ";
+
+                    }
+
+                }
+            }
+
+        }
+    }
+
 ?>
