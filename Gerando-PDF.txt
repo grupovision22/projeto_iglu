@@ -1,0 +1,10 @@
+Gerando PDF - DOMPDF
+
+Para gerar o PDF é necessário baixar o Composer na máquina.
+
+Após baixar o composer, você deve abrir o cmd, entrar na pasta onde estão os arquivos do projeto e dar
+o seguinte comando:
+	composer require dompdf/dompdf
+
+Após esse comando, pode fechar o cmd e irá perceber que uma pasta chamada Vendor foi criada
+no seu projeto.
