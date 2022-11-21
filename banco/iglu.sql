@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19-Nov-2022 às 05:23
+-- Tempo de geração: 21-Nov-2022 às 03:44
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -86,19 +86,21 @@ CREATE TABLE `tbfornecedor` (
   `idFornecedor` int(11) NOT NULL,
   `nomeEmpresaFornecedor` varchar(150) NOT NULL,
   `nomeFornecedor` varchar(150) NOT NULL,
-  `emailEmpresarialFornecedor` varchar(150) NOT NULL,
-  `emailContatoFornecedor` varchar(150) NOT NULL,
-  `telEmpresarialFornecedor` varchar(15) DEFAULT NULL,
-  `telContatoFornecedor` varchar(15) NOT NULL,
-  `cnpjFornecedor` varchar(20) NOT NULL,
-  `logradouroEndereco` varchar(150) NOT NULL,
-  `numeroEndereco` int(10) NOT NULL,
-  `complementoEndereco` varchar(50) DEFAULT NULL,
-  `bairroEndereco` varchar(100) NOT NULL,
-  `cidadeEndereco` varchar(100) NOT NULL,
-  `ufEndereco` varchar(2) NOT NULL,
-  `cepEndereco` varchar(12) DEFAULT NULL
+  `emailFornecedor` varchar(150) NOT NULL,
+  `telFornecedor` varchar(20) DEFAULT NULL,
+  `cnpjFornecedor` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `tbfornecedor`
+--
+
+INSERT INTO `tbfornecedor` (`idFornecedor`, `nomeEmpresaFornecedor`, `nomeFornecedor`, `emailFornecedor`, `telFornecedor`, `cnpjFornecedor`) VALUES
+(1, 'Kibon', 'Levi Emanoel Martin', 'levi_silveira@kibom.com.br', ' (11) 98567-3035', '61.068.276/0001-04.'),
+(2, 'BACIO Di Latte', 'Osvaldo Diogo Nunes', 'osvalado.nunes@baciodilatte.com.br', ' (11) 95433-2930', '11.950.487/0066035'),
+(3, 'Nobrelli', 'Daniela Betina', 'danilea.betina2@nobrelli.com.br', ' (11) 92930-4830 ', '30.621.687/0001-43'),
+(4, 'Nestlé', 'Adriel Ferreira', 'adriel.eferreira@nestle.com.br', ' (11) 93030-2918 ', '60.409.075/0001-52'),
+(5, 'Lacta', 'Vanessa Souza', 'vanessa.souza@mondelez.com.br', ' (11) 95465-3165 ', '04.140.816/0001-71');
 
 -- --------------------------------------------------------
 
@@ -133,11 +135,10 @@ CREATE TABLE `tbfunc` (
 --
 
 INSERT INTO `tbfunc` (`idFunc`, `cpfFunc`, `rgFunc`, `nomeFunc`, `generoFunc`, `dataNascFunc`, `dataContratoFunc`, `naturalidadeFunc`, `emailFunc`, `telFunc`, `senhaFunc`, `logradouroEndereco`, `numeroEndereco`, `complementoEndereco`, `bairroEndereco`, `cidadeEndereco`, `ufEndereco`, `cepEndereco`, `idCargo`) VALUES
-(1, '123.456.987-12', '54.065.978-1', 'Clarice  Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'downilolopes@gmail.com', '(11) 2702-2738', 'clarice123', 'R. da Lua', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480', 1),
+(1, '123.456.987-12', '54.065.978-1', 'Clarice  Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'cayiv58687@sopulit.com', '(11) 2702-2738', '4365255050', 'R. da Lua', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480', 1),
 (2, '133.447.988-21', '20.345.433-1', 'Cláudio Paulo Araújo', 'M', '1999-10-23', '1899-03-13', 'BA', 'claudio.paulo.araujo@gmail.com', '(11) 3907-6552', 'claudio123', 'R. Tamoios', 399, '', 'Conceição', 'Diadema', 'SP', '09991-070', 1),
 (3, '417.271.991-04', '40.599.014-3', 'Maria Carvalho Dias', 'F', '2002-04-14', '2021-08-12', 'SP', 'marcia.caroline@gmail.com', '(11) 2506-9252', 'marcia123', 'R. do Socialismo Científico', 100, NULL, 'Conceição', 'Diadema', 'SP', '09993-140', 2),
-(4, '137.921.230-05', '21.300.400-3', 'Rodrigo Juan Claudio', 'M', '1999-07-29', '2022-10-04', 'SP', 'rodrigoduarte06@gmail.com', '(11) 2668-9942', 'rodrigo123', 'R. Glauber Rocha', 40, NULL, 'Serraria', 'Diadema', 'SP', '09980-760', 2),
-(14, '137.921.230-05', '21.300.400-3', 'Teste', 'M', '1999-07-29', '2022-10-04', 'SP', 'teste@gmail.com', '(11) 2668-9942', 'teste', 'R. da Lua', 15, NULL, 'Serraria', 'Diadema', 'SP', '09981-480', 2);
+(4, '137.921.230-05', '21.300.400-3', 'Rodrigo Juan Claudio', 'M', '1999-07-29', '2022-10-04', 'SP', 'rodrigoduarte06@gmail.com', '(11) 2668-9942', 'rodrigo123', 'R. Glauber Rocha', 40, NULL, 'Serraria', 'Diadema', 'SP', '09980-760', 2);
 
 -- --------------------------------------------------------
 
@@ -175,15 +176,15 @@ CREATE TABLE `tbpedido` (
 
 CREATE TABLE `tbproduto` (
   `idProduto` int(11) NOT NULL,
+  `idFornecedor` int(11) NOT NULL,
   `nomeProduto` varchar(150) NOT NULL,
   `descricaoProduto` varchar(300) DEFAULT NULL,
   `imagemProduto` varchar(255) NOT NULL,
-  `dataVerificacaoProduto` date NOT NULL,
+  `dataVencimentoProduto` date NOT NULL,
   `dataFabricacaoProduto` date NOT NULL,
-  `qtdeProduto` int(11) NOT NULL,
-  `precoProduto` decimal(10,0) NOT NULL,
-  `pesoProduto` decimal(10,0) NOT NULL,
-  `loteProduto` varchar(15) NOT NULL
+  `qtdeProduto` decimal(10,0) NOT NULL,
+  `loteProduto` varchar(15) NOT NULL,
+  `precoProduto` double(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -248,7 +249,8 @@ ALTER TABLE `tbpedido`
 -- Índices para tabela `tbproduto`
 --
 ALTER TABLE `tbproduto`
-  ADD PRIMARY KEY (`idProduto`);
+  ADD PRIMARY KEY (`idProduto`),
+  ADD KEY `idFornecedor` (`idFornecedor`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -276,13 +278,13 @@ ALTER TABLE `tbcategoriaproduto`
 -- AUTO_INCREMENT de tabela `tbfornecedor`
 --
 ALTER TABLE `tbfornecedor`
-  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `tbfunc`
 --
 ALTER TABLE `tbfunc`
-  MODIFY `idFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idFunc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `tbpagamento`
@@ -300,7 +302,7 @@ ALTER TABLE `tbpedido`
 -- AUTO_INCREMENT de tabela `tbproduto`
 --
 ALTER TABLE `tbproduto`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restrições para despejos de tabelas
@@ -326,6 +328,12 @@ ALTER TABLE `tbpedido`
   ADD CONSTRAINT `tbpedido_ibfk_1` FOREIGN KEY (`idPagamento`) REFERENCES `tbpagamento` (`idPagamento`),
   ADD CONSTRAINT `tbpedido_ibfk_2` FOREIGN KEY (`idCliente`) REFERENCES `tbcliente` (`idCliente`),
   ADD CONSTRAINT `tbpedido_ibfk_3` FOREIGN KEY (`idProduto`) REFERENCES `tbproduto` (`idProduto`);
+
+--
+-- Limitadores para a tabela `tbproduto`
+--
+ALTER TABLE `tbproduto`
+  ADD CONSTRAINT `tbproduto_ibfk_1` FOREIGN KEY (`idFornecedor`) REFERENCES `tbfornecedor` (`idFornecedor`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
