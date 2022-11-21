@@ -301,8 +301,10 @@
                         </div>
                         <div class="p-2 flex-fill bd-highlight">
                             <div class="btnTelas">
+                                <a href="relatorio_estoque.php" class="relatorio">
                                 <img class="sidebarIcons imgBtnTelas" src="estilo/icons/add.png" width="18" height="18">
                                 Gerar relatório
+                                </a>
                             </div>
                         </div>
                     </div>

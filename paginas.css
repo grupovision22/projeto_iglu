@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body{
+    background-image: url("imgs/Fundo.png");
+    background-size: cover;
+}
+
+/* INÍCIO ESTILO LOGIN */
+
+.container {
+    display: flex;    
+    height: 100vh; 
+    margin:0px !important;
+    padding: 0px !important;
+    max-width: unset; 
+  }
+  
+  .container .col {
+    flex: 1;
+    height: 100%;
+  }
+  
+  .container .col:nth-child(2)
+  {
+    background-color: #FFF5E7;
+  }
+
+.metade {
+    width: 50%;
+    align-items: center;
+}
+
+.font {
+    font-family: 'Montserrat', sans-serif;
+    color: #835152;
+    font-size: 20;
+    margin-top: 40px;
+}
+
+.titulo {
+    font-family: 'Montserrat', sans-serif;
+    color: #894646;
+    font-size: 45;
+    font-weight: bolder;
+}
+
+.font2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #713333;
+    font-size: 22;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.formDiv {
+    margin-left: 15%;
+}
+
+.form {
+    width: 80%;
+}
+
+.inputLogin {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1.5px solid #974B4B;
+    border-radius: 0px;
+}
+
+.esqueciSenha {
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: underline;
+    color: #974B4B;
+    cursor: pointer;
+}
+
+.esqueciSenha:hover {
+    color: #FF6C74;
+}
+
+.loginBtn {
+    font-family: 'Montserrat', sans-serif;
+    width: 50px;
+    background-color: transparent;
+    border-color: #974B4B;
+    border-radius: 20px;
+    color: #843C3E;
+    font-weight: 600;
+}
+
+/* FIM ESTILO LOGIN */
+
+/* INÍCIO ESTILO SIDEBAR */
+
+.sidebar {
+    width: 265px; 
+    background: rgba(255, 245, 231, 0.85);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.estoqueImg:hover {
+    background-image: url("icons/boxSelected.png") no-repeat;
+}
+
+.tituloSidebar {
+    color: #835151;
+    font-weight: bold!important;
+    font-size: 24px!important;
+}
+
+.divisao1 {
+    border: 1px solid #FF6C74;
+    margin-top: 50px;
+}
+
+.divisao2 {
+    border: 1px solid #FF6C74;
+    margin-top: 20px;
+}
+
+.sidebarIcons {
+    margin-right: 10px;
+    margin-bottom: 1px;
+}
+
+.sidebarIcons:hover {
+    cursor: pointer;
+}
+
+.selecionado {
+    color: #FF6C74;
+    font-size: 16px;
+}
+
+.opcao {
+    color: #B74C4E;
+    font-size: 16px;
+}
+
+.selecionado:hover, .opcao:hover {
+    color: #FF6C74;
+}
+
+.deslogar {
+    bottom: 0px;
+    font-size: 16px;
+    color: #F4D3D3;
+    font-weight: 500;
+}
+.deslogar:hover {
+    color: #Fff3D3;
+}
+
+.deslogarContent {
+    margin-left: 20%;
+}
+
+/* FIM ESTILO SIDEBAR */
+
+/* INÍCIO ESTILO CONTEÚDO */
+
+.conteudo {
+    background: rgba(131, 81, 82, 0.4); 
+    width: 100%; 
+}
+
+.areaUsuario {
+    margin-left: 90%;
+    z-index: 10;
+}
+
+.areaPerfil {
+    position: relative; 
+    width: 50px; 
+    height: 60px; 
+    background: rgba(255, 245, 231, 0.85); 
+    border-radius: 0px 0px 50px 50px;
+}
+
+.iconeUsuario {
+    margin-top: 20px;
+}
+
+.nomeUsuario {
+    margin-top: 20px; 
+    color: #5f2222; 
+    padding-right: 100px;
+}
+
+.tituloConteudo {
+    color: #5f2222;
+    font-size: 20px;
+    text-align:center;
+}
+
+.btnTelas {
+    background-color: #ffeaca; 
+    border-radius: 20px; 
+    color: #9E7164; 
+    padding: 3px; 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    width: 250px;
+    cursor: pointer;
+}
+
+.marginBtnTelas {
+    margin-top: 40px;
+}
+
+.imgBtnTelas {
+    margin-bottom: 3px; 
+    margin-left: 5px;
+}
+
+.listaDados {
+    background: rgba(255, 251, 241, 0.8);
+    border-radius: 10px; 
+    margin-top: -10px;
+    height: 420;;
+    padding-top: 10px;
+    padding-left: 5px;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.15);
+    overflow-y: scroll;
+}
+
+.subtituloConteudo {
+    color: #5f2222;
+    font-size: 18px;
+    text-align:center;
+}
+
+
+/* FIM ESTILO CONTEÚDO */
+
+/*RELATORIOS*/
+.relatorio{
+    text-decoration: none;
+    color: #9E7164;
+}
