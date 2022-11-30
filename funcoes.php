@@ -2,6 +2,8 @@
 
     ?><style> <?php include 'estilo/paginas.css'; ?> </style><?php
 
+    //Função que verifica se o usuário navegando entre as paginas está logado ou não, caso não esteja é redirecionado a tela de login.
+
     function verifica_login($con){
 
         if(isset($_SESSION['idFunc']))
@@ -23,6 +25,8 @@
 
     }
 
+    //Função usada pra gerar um número aleatório, fou implementada na recuperação de senha dos usuários.
+
     function numero_randomico($tamanho){
 
         $texto = "";
@@ -39,6 +43,9 @@
         return $texto;
 
     }
+
+    //Função da recuperação de senha em si, onde a mesma recebe o email digitado e compara com os emails cadastrados no banco, 
+    //caso exista é enviado um e-mail contendo uma nova senha ao usuário.
 
     function recupera_senha($con ,$email){
         if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -86,59 +93,7 @@
 
     }
 
-    function carrega_menu($con){
-
-        if(isset($_SESSION['idFunc']))
-        {
-           
-            $id = $_SESSION['idFunc'];
-            $query = "select idCargo from tbfunc where idFunc = '$id' limit 1";
-
-            $resultado = mysqli_query($con, $query);
-
-            if($resultado == "1"){
-
-                echo "<li class='nav-item'>
-                <a href='#' class='nav-link selecionado' aria-current='page'>
-                <img class='sidebarIcons' src='estilo/icons/homeSelected.png' width='15' height='15'>
-                Tela Inicial
-                </a>
-            </li>
-            <li>
-                <a href='estoque.php' class='nav-link opcao'>
-                <img class='sidebarIcons' src='estilo/icons/box.png' width='15' height='15'>
-                Estoque
-                </a>
-            </li>
-            <li>
-                <a href='funcionarios.php' class='nav-link opcao'>
-                <img class='sidebarIcons' src='estilo/icons/people.png' width='15' height='15'>
-                Funcionários
-                </a>
-            </li>
-            <li>
-                <a href='fornecedores.php' class='nav-link opcao'>
-                <img class='sidebarIcons' src='estilo/icons/truck.png' width='15' height='15'>
-                Fornecedores
-                </a>
-            </li>
-            <li>
-                <a href='vendas.php' class='nav-link opcao'>
-                <img class='sidebarIcons' src='estilo/icons/wallet.png' width='15' height='15'>
-                Vendas
-                </a>
-            </li>
-            <li>
-                <a href='configuracoes.php' class='nav-link opcao'>
-                <img class='sidebarIcons' src='estilo/icons/settings.png' width='15' height='15'>
-                Configurações
-                </a>
-            </li>";
-
-            }
-        }
-
-    }
+    //Função chamada pelo javascript para deletar um funcionário.
 
     function deleta_funcionario($con, $id){
         if(isset($_SESSION['idFunc'])){
@@ -152,6 +107,8 @@
             
         }
     }
+
+    //Função chamada pelo modal de cadastro de funcionários, onde ao cadastrar o mesmo um e-mail é enviado contendo sua senha de primeiro acesso.
 
     function adiciona_funcionario($con, $dadosFunc){
         if(isset($_SESSION['idFunc'])){
@@ -180,6 +137,8 @@
 
         }
     }
+
+    //Funcão chamada para alterar os dados modificados do usuário no banco
 
     function edita_funcionario($con, $dadosFunc){
         if(isset($_SESSION['idFunc'])){
@@ -217,6 +176,98 @@
             return "selected='selected'";
         }
     }
+
+    //Função responsável por carregar os dados do usuário logado na tela de configurações.
+
+    function carrega_usuario($con){
+        if(isset($_SESSION['idFunc'])){
+
+            $id = $_SESSION['idFunc'];
+            $query = "SELECT * FROM tbfunc WHERE idFunc = '$id'";
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+                
+                while($row = mysqli_fetch_array($resultado)){
+
+
+                echo "
+                <div class='modal-body'>
+                    <input type='hidden' value='".$row['idFunc']."' name='idFunc' id='idFunc'>
+                    <div class='row'>
+                        <div class='col'>
+                            <label for='recipient-name' class='col-form-label'>Nome:</label>
+                            <input type='text' placeholder='Insira o nome completo' name='nomeFunc' value='".$row['nomeFunc']."' class='form-control' id='nomeFunc' disabled>
+                        </div>
+                        <div class='col-6'>
+                            <label for='recipient-name' class='col-form-label'>E-mail:</label>
+                            <input type='email' placeholder='Insira o e-mail' name='emailFunc' value='".$row['emailFunc']."' class='form-control' id='emailFunc' disabled>
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='col'>
+                            <label for='recipient-name' class='col-form-label'>Gênero:</label>
+                            <select class='form-select' name='geneFunc' id='geneFunc' aria-label='Default select example' disabled>
+                                <option>Selecione o sexo</option>
+                                <option ".funcF($row['generoFunc'])." value='F'>Feminino</option>
+                                <option ".funcM($row['generoFunc'])." value='M'>Masculino</option>
+                            </select>
+                        </div>
+                        <div class='col-3'>
+                            <label for='recipient-name' class='col-form-label'>Naturalidade:</label>
+                            <input type='text' placeholder='Insira a naturalidade' maxlength='2' name='naturaFunc' value='".$row['naturalidadeFunc']."' class='form-control' id='naturaFunc' disabled>
+                        </div>
+                        <div class='col'>
+                            <label for='recipient-name' class='col-form-label'>R.G:</label>
+                            <input type='text' placeholder='Insira o RG' maxlength='15' name='rgFunc' value='".$row['rgFunc']."' class='form-control' id='rgFunc' disabled>
+                        </div>
+                        <div class='col'>
+                            <label for='recipient-name' class='col-form-label'>C.P.F:</label>
+                            <input type='text' placeholder='Insira o CPF' maxlength='15' name='cpfFunc' value='".$row['cpfFunc']."' class='form-control' id='cpfFunc' disabled>
+                        </div>
+                    </div>
+                    
+                    <div class='row'>
+                        <div class='col'>
+                            <label for='recipient-name' class='col-form-label'>Cargo:</label>
+                            <select class='form-select' name='cargoFunc' id='cargoFunc' aria-label='Default select example' disabled>
+                                <option>Selecione o cargo</option>
+                                <option ".funcC1($row['idCargo'])." value='1'>Administrador</option>
+                                <option ".funcC2($row['idCargo'])." value='2'>Caixa</option>
+                            </select>
+                        </div>
+                        <div class='col-3'>
+                            <label for='recipient-name' class='col-form-label'>Telefone:</label>
+                            <input type='text' placeholder='Insira um telefone' name='telefoneFunc' value='".$row['telFunc']."' class='form-control' id='telefoneFunc' disabled>
+                        </div>
+                        <div class='col-3'>
+                            <label for='recipient-name' class='col-form-label'>Data de Nascimento:</label>
+                            <input name='dataNascFunc' id='dataNascFunc' class='form-control' value='".$row['dataNascFunc']."' type='date' disabled/>
+                        </div>
+                        <div class='col-3'>
+                            <label for='recipient-name' class='col-form-label'>Data de Admissão:</label>
+                            <input name='dataAdmiFunc' id='dataAdmiFunc' class='form-control' value='".$row['dataContratoFunc']."' type='date' disabled/>
+                        </div>
+                    </div>
+                    </div>
+                ";
+                }
+
+            }
+        }
+    }
+
+    function cargo_func($id){
+        
+        if($id == 1){
+             return "Administrador";
+        }else if($id == 2){
+            return "Caixa";
+        }
+    }
+
+    //Função responsável por listar os funcionários do sistema, assim como carregar um modal de edição individual para cada um dos mesmos e um botão de exclusão.
 
     function carrega_funcionarios($con){
         if(isset($_SESSION['idFunc'])){
@@ -383,7 +434,8 @@
                     echo "
                     <tr>
                         <td class='subtituloConteudo'>".$row['idFunc']."</td>
-                        <td class='subtituloConteudo'>".$row['nomeFunc']."</td>
+                        <td class='subtituloConteudo'>".$row['nomeFunc']."  </td>
+                        <td class='subtituloConteudo'>".cargo_func($row['idCargo'])."</td>
                         <td class='subtituloConteudo'>".$row['emailFunc']."</td>
                         <td class='subtituloConteudo'>".$row['telFunc']."</td>
                         <td class='subtituloConteudo'><img class='sidebarIcons' data-bs-toggle='modal' data-bs-target='#editarFuncModal".$row['idFunc']."' src='estilo/icons/edit.png' width='18' height='18'> <img onclick='deletarFunc(".$row['idFunc'].")' class='sidebarIcons' src='estilo/icons/trash.png' width='18' height='18'></div></td>
@@ -395,6 +447,9 @@
 
         }
     }
+
+    //Função chamada pelo modal de cadastro de fornecedores, onde é realizado o cadastro do mesmo no banco.
+
 
     function adiciona_fornecedor($con, $dadosForn){
         if(isset($_SESSION['idFunc'])){
@@ -414,6 +469,8 @@
         }
     }
 
+    //Função associada ao modal de ediçaõ de fornecedores, onde os dados atualizados são alterados no banco.
+
     function edita_fornecedores($con, $dadosForn){
         if(isset($_SESSION['idFunc'])){
 
@@ -427,6 +484,8 @@
         }
     }
 
+    //Função chamada na listagem de fornecedores para deletar os mesmos.
+
     function deleta_fornecedor($con, $id){
         if(isset($_SESSION['idFunc'])){
             $query = "DELETE FROM tbfornecedor WHERE idFornecedor = '$id'";
@@ -439,6 +498,9 @@
             
         }
     }
+
+    //Função responsável por listar os fornecedores do sistema, assim como carregar um modal de edição individual para cada um dos mesmos e um botão de exclusão.
+
 
     function carrega_fornecedores($con){
         if(isset($_SESSION['idFunc'])){
@@ -538,6 +600,23 @@
         }
     }
 
+    //Função responsável por listar o estoque de produtos
+
+    function lista_fornecedor($con){
+        if(isset($_SESSION['idFunc'])){
+            $fornecedores = "SELECT * FROM tbfornecedor";
+            $result = mysqli_query($con, $fornecedores);
+
+            if($result){
+                while($row = mysqli_fetch_array($result)){
+                    echo "<option value='".$row['idFornecedor']."'>".$row['nomeEmpresaFornecedor']."</option>";
+                }
+            }
+        }
+    }
+
+    //Função chamada pelo modal de cadastro de produtos, onde é realizado o cadastro dos mesmos no banco.
+
     function adiciona_produto($con, $dadosProd, $imgName, $imgTmp, $imgFolder){
         if(isset($_SESSION['idFunc'])){
             
@@ -557,18 +636,7 @@
         }
     }
 
-    function lista_fornecedor($con){
-        if(isset($_SESSION['idFunc'])){
-            $fornecedores = "SELECT * FROM tbfornecedor";
-            $result = mysqli_query($con, $fornecedores);
-
-            if($result){
-                while($row = mysqli_fetch_array($result)){
-                    echo "<option value='".$row['idFornecedor']."'>".$row['nomeEmpresaFornecedor']."</option>";
-                }
-            }
-        }
-    }
+  //Funções responsáveis por listar os fornecedores nas guias de cadastro e edição de produtos.  
 
     function fornecedor_selected($id, $idForn){
         if ($id == $idForn){
@@ -591,6 +659,8 @@
         }
     }
 
+    //Função associada ao modal de ediçaõ de produtos, onde os dados atualizados são alterados no banco.
+
     function edita_produtos($con, $dadosProd, $imgName, $imgTmp, $imgFolder){
         if(isset($_SESSION['idFunc'])){
 
@@ -607,6 +677,8 @@
         }
     }
 
+    //Função chamada na listagem de produtos para deletar os mesmos.
+
     function deleta_produto($con, $id){
         if(isset($_SESSION['idFunc'])){
             $query = "DELETE FROM tbproduto WHERE idProduto = '$id'";
@@ -619,6 +691,8 @@
             
         }
     }
+
+    //Função responsável por listar os produtos do sistema, assim como carregar um modal de edição individual para cada um dos mesmos e um botão de exclusão.
 
     function carrega_produto($con){
         if(isset($_SESSION['idFunc'])){
@@ -644,7 +718,7 @@
                             $dadosProd['descProd'] = $_POST['descProd'];
                             $dadosProd['dataVenciProd'] = $_POST['dataVenciProd'];
                             $dadosProd['dataFabriProd'] = $_POST['dataFabriProd'];
-                            $dadosProd['precoProd'] = $_POST['precoProd'];
+                            $dadosProd['precoProd'] = floatval($_POST['precoProd']);
                             $dadosProd['qntdProd'] = $_POST['qntdProd'];
                             $dadosProd['loteProd'] = $_POST['loteProd'];
 
@@ -689,7 +763,7 @@
                                             <div class='row'>
                                                 <div class='col'>
                                                     <label for='recipient-name' class='col-form-label'>Descrição do produto:</label>
-                                                    <textarea value='".$row['descricaoProduto']."' class='form-control' placeholder='Insira uma descrição para o produto' name='descProd' id='descProd' rows='3'></textarea>
+                                                    <textarea class='form-control' placeholder='Insira uma descrição para o produto' name='descProd' id='descProd' rows='3'>".$row['descricaoProduto']."</textarea>
                                                 </div>
                                             </div>
             
@@ -711,7 +785,7 @@
                                             <div class='row'>
                                                 <div class='col-3'>
                                                     <label for='recipient-name' class='col-form-label'>Preço do produto:</label>
-                                                    <input value='".$row['precoProduto']."' name='precoProd' id='precoProd' class='form-control' type='number' min='1' step='any' required/>
+                                                    <input value='".$row['precoProduto']."' name='precoProd' id='precoProd' class='form-control' type='text' required/>
                                                 </div>
                                                 <div class='col-3'>
                                                     <label for='recipient-name' class='col-form-label'>Quantidade do produto:</label>
@@ -740,16 +814,16 @@
                             <div class='card'>
                                 <br>
                                 <div class='imgsCard divCard'>
-                                    <img src='estilo/imgs/Produtos/".$row['imagemProduto']."' style='margin-top: 18%;' class='imgsCard' width='90'>
+                                    <img src='estilo/imgs/Produtos/".$row['imagemProduto']."' style='margin-top: 10%;' class='imgsCard' width='110'>
                                 </div>
                                 <div class='card-body'>
                                     <h5 class='card-title'>".$row['nomeProduto']."</h5>
                                     <div class='row'>
                                         <div class='col-6'>
-                                            <h6>Qntd(L):</h6>
+                                            <h6>Quantidade:</h6>
                                         </div>
                                         <div class='col-6'>
-                                            <p class='card-text'>".$row['qtdeProduto']."L</p>
+                                            <p class='card-text'>".$row['qtdeProduto']."</p>
                                         </div>
                                     </div>
                                     <div class='row'>
@@ -788,5 +862,190 @@
 
         }
     }
+
+    //Função usada na tela de configurações para realizar a alteração da senha, onde é comparada a senha cadastrada no banco com a inserida, 
+    //e se as mesmas forem iguais é alterada para a nova senha no banco.
+
+    function alterar_senha($con, $senhaAtual, $novaSenha){
+        if(isset($_SESSION['idFunc'])){
+            
+            $query = "SELECT * FROM tbfunc WHERE idFunc = ".$_SESSION['idFunc']."";
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+                if($resultado && mysqli_num_rows($resultado) > 0){
+
+                    $dadosUsuario = mysqli_fetch_assoc($resultado);
+
+                    if($dadosUsuario['senhaFunc'] === $senhaAtual){
+
+                        $attSenha = "UPDATE tbfunc SET senhaFunc = '$novaSenha' WHERE idFunc = ".$_SESSION['idFunc']."";
+
+                        mysqli_query($con, $attSenha);
+
+                        $nomeCompleto = $dadosUsuario['nomeFunc'];
+                        $nome = explode(" ", $nomeCompleto);
+
+                        $to = $dadosUsuario['emailFunc'];
+                        $subject = 'Alteração de Senha';
+                        $message = "Olá $nome[0], tudo bem?\n\nSua senha foi alterado com sucesso.\n\n\nA sorveteria Iglu agradece!";
+                        $headers = 'From: Sorveteria Iglu';
+
+                        //Envia email
+                        mail($to, $subject, $message, $headers);
+
+                    }
+
+                }
+            }
+        }
+    }
+
+    //Função usada na tela de configurações para realizar a alteração do e-mail, onde é comparado o e-mail cadastrado no banco com o inserido, 
+    //e se os mesmos forem iguais é alterado para o novo e-mail no banco.
+
+    function alterar_email($con, $emailAtual, $novoEmail){
+        if(isset($_SESSION['idFunc'])){
+            if(!empty($emailAtual) && !is_numeric($emailAtual) && !empty($novoEmail) && !is_numeric($novoEmail)){
+
+                $query = "SELECT * FROM tbfunc WHERE emailFunc = '$emailAtual'";
+                $resultado = mysqli_query($con, $query);
+
+                if($resultado){
+                    if($resultado && mysqli_num_rows($resultado) > 0){
+
+                        $dadosUsuario = mysqli_fetch_assoc($resultado);
+
+                        if($dadosUsuario['emailFunc'] === $emailAtual){
+
+                            $attEmail = "UPDATE tbfunc SET emailFunc = '$novoEmail' WHERE idFunc = ".$_SESSION['idFunc']."";
+
+                            mysqli_query($con, $attEmail);
+
+                            $nomeCompleto = $dadosUsuario['nomeFunc'];
+                            $nome = explode(" ", $nomeCompleto);
+
+                            $to = $novoEmail;
+                            $subject = 'Alteração de E-mail';
+                            $message = "Olá $nome[0], tudo bem?\n\nSeu e-mail foi alterado com sucesso.\n\n\nA sorveteria Iglu agradece!";
+                            $headers = 'From: Sorveteria Iglu';
+
+                            //Envia email
+                            mail($to, $subject, $message, $headers);
+
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    //Função que carrega os produtos para adicionar na compra
+
+    function carrega_produtos_venda($con){
+        if(isset($_SESSION['idFunc'])){
+
+            $query = "SELECT * FROM tbproduto";
+            $resultado = mysqli_query($con, $query);
+
+            if($resultado){
+
+                while($row = mysqli_fetch_array($resultado)){
+
+                    $fornecedor = "SELECT * FROM tbfornecedor INNER JOIN tbproduto ON tbfornecedor.idFornecedor = tbproduto.idFornecedor WHERE tbproduto.idFornecedor = ".$row['idFornecedor']."";
+                    $query2 = mysqli_query($con, $fornecedor);
+
+                    if($query2 = mysqli_fetch_array($query2)){
+
+                        if (!empty($_POST['submit-calcular-total'])) {
+
+                            global $dadosVenda;
+                        
+                            $dadosVenda['id'] = $_POST['idVenda'];
+    
+                            //$dadosVenda['nomeCliente'] = $_POST['nomeCliente'];
+                            //$dadosVenda['telCliente'] = $_POST['telCliente'];
+                            //$dadosVenda['statusPedido'] = $_POST['statusPedido'];
+                            $dadosVenda['valorUnidade'] = $row['precoProduto'];
+                            $dadosVenda['qntdPedido'] = $_POST['qntdVenda'];
+                            $dadosVenda['valorPedido'] = floatval($dadosVenda['valorUnidade'] * $dadosVenda['qntdVenda']);
+                            $dadosVenda['dataPedido'] = date("Y/m/d");
+                            $dadosVenda['idFunc'] = $_SESSION['idFunc'];
+                            $dadosVenda['idPagamento'] = $_POST['idPagamento'];
+                            $dadosVenda['idProduto'] = $row['idProduto'];
+                            
+                            carrega_valor_venda();
+                            //realiza_venda($con, $dadosVenda);
+                    
+                        } 
+
+                        echo "
+                        <div class='col-5'>
+                            <div class='card'>
+                                <br>
+                                <div class='imgsCard divCard'>
+                                    <img src='estilo/imgs/Produtos/".$row['imagemProduto']."' style='margin-top: 10%;' class='imgsCard' width='110'>
+                                </div>
+                                <div class='card-body'>
+                                    <h5 class='card-title'>".$row['nomeProduto']."</h5>
+                                    <div class='row'>
+                                        <div class='col-7'>
+                                            <h6>Quantidade:</h6>
+                                        </div>
+                                        <div class='col-5'>
+                                            <p class='card-text'>".$row['qtdeProduto']."</p>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <div class='col-6'>
+                                            <h6>Preço:</h6>
+                                        </div>
+                                        <div class='col-6'>
+                                            <p class='card-text'>R$ ".$row['precoProduto']."</p>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <label for='recipient-name' class='col-form-label'>Quantidade desejada:</label>
+                                    </div>
+                                    <form method='POST'>
+                                    <div class='row'>
+                                        <div class='col-8'>
+                                            <input value='' name='qntdVenda' id='qntdVenda' class='form-control' type='number' min='1' step='any'/>
+                                        </div>
+                                        <div class='col-3'>
+                                            <button type='submit-calcular-total' class='btn btn-success'>+</button>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>  
+                        </div>
+                        ";
+
+                    }
+
+                }
+            }
+
+        }
+    }
+
+    function carrega_valor_venda(){
+        if(isset($_SESSION['idFunc'])){
+            
+            $len = isset($dadosVenda['valorPedido']) ? count($dadosVenda['valorPedido']) : 0;
+            echo "<label class='col-form-label'>Total: ".$len."</label>";
+
+            //echo '<script type="text/javascript"> alert("'.$len.'");</script>';
+
+        }
+    }
+
+    function realiza_venda($con, $dadosVenda){
+
+    }
+
+
 
 ?>

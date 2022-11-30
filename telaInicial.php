@@ -147,6 +147,16 @@
                         <h5 class="position-absolute top-0 translate-middle-x nomeUsuario"><?php echo($nome[0]) ?></h5>
                     </div>
                 </div>
+
+                <div class="container-fluid" style="text-align: middle;">
+                    <br><br><br><br><br><br><br><br><br>
+
+                    <div class="container-fluid">
+                        <h1 style="margin-left: 30%; color: #743434">Em desenvolvimento</h1>
+                    </div>
+
+
+                </div>
                 
 
             </div>

@@ -1,14 +1,12 @@
 <?php
 
-
-
 //Incluindo conexão com o bd
 include_once './db.php';
 
 //Formatando a tabela
 $html_forn = '';
 $html_forn = '<link rel="stylesheet" href="estilo/bootstrap.min.css">';
-$html_forn = '<table border=1';	
+$html_forn = '<table class="table" border=1>';	
 $html_forn .= '<thead>';
 $html_forn .= '<tr>';
 $html_forn .= '<th scope="col">ID</th>';
@@ -32,7 +30,7 @@ while($row_tbfornecedor = mysqli_fetch_assoc($resultado_forn)){
 }
 
 $html_forn .= '</tbody>';
-$html_forn .= '</table';
+$html_forn .= '</table>';
 
 
 //referenciar o DomPDF com namespace

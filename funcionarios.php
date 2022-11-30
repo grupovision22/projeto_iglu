@@ -311,8 +311,8 @@
                         <div class="p-2 flex-fill bd-highlight">
                             <div class="btnTelas">
                                 <a href="relatorio_func.php" class="relatorio">
-                                <img class="sidebarIcons imgBtnTelas" src="estilo/icons/add.png" width="18" height="18">
-                                Gerar relatório
+                                    <img class="sidebarIcons imgBtnTelas" src="estilo/icons/add.png" width="18" height="18">
+                                    Gerar relatório
                                 </a>
                             </div>
                         </div>
@@ -326,6 +326,7 @@
                                     <tr>
                                         <th class="subtituloConteudo p-2 flex-fill bd-highlight" scope="col">ID</th>
                                         <th class="subtituloConteudo p-2 flex-fill bd-highlight" scope="col">Nome</th>
+                                        <th class="subtituloConteudo p-2 flex-fill bd-highlight" scope="col">Cargo</th>
                                         <th class="subtituloConteudo p-2 flex-fill bd-highlight" scope="col">E-mail</th>
                                         <th class="subtituloConteudo p-2 flex-fill bd-highlight" scope="col">Telefone</th>
                                         <th class="subtituloConteudo p-2 flex-fill bd-highlight" scope="col">Opções</th>
