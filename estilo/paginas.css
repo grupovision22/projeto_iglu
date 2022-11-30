@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
 body{
     background-image: url("imgs/Fundo.png");
     background-size: cover;
@@ -166,8 +165,23 @@ body{
     width: 100%; 
 }
 
+.conteudo2 {
+    background: rgba(131, 81, 82, 0.4); 
+    width: 60%; 
+}
+
+.conteudo3 {
+    background: rgba(131, 81, 82, 0.4); 
+    width: 40%; 
+}
+
 .areaUsuario {
     margin-left: 90%;
+    z-index: 10;
+}
+
+.areaUsuario2 {
+    margin-left: 74.2%;
     z-index: 10;
 }
 
@@ -198,7 +212,6 @@ body{
     color: #5f2222;
     font-size: 20px;
     margin-left: 10px;
-    margin-top: -30px;
 }
 
 .btnTelas {
@@ -227,6 +240,7 @@ body{
     height: 420;
     padding-top: 10px;
     padding-left: 5px;
+    padding-bottom: 5px;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.15);
     overflow-y: scroll;
     max-width: 100%;
@@ -237,13 +251,29 @@ body{
     background: rgba(255, 251, 241, 0.8);
     border-radius: 10px; 
     margin-top: -10px;
-    height: 260;
+    height: 270;
     padding-left: 5px;
+    padding-bottom: 5px;
     box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.15);
     overflow-y: scroll;
     max-width: 100%;
     overflow-x: hidden;
 }
+
+.listaDados3 {
+    background: rgba(255, 251, 241, 0.8);
+    border-radius: 10px; 
+    margin-top: -10px;
+    height: 420;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.15);
+    overflow-y: scroll;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 
 .subtituloConteudo {
     color: #5f2222;
@@ -262,6 +292,16 @@ body{
     height: 140px; 
     background: #EE9A9E; 
     border-radius: 100px;
+}
+
+a.relatorio:link {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+a.relatorio:visited {
+    text-decoration: inherit;
+    color: inherit;
 }
 
 /* FIM ESTILO CONTEÚDO */
