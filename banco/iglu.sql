@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21-Nov-2022 às 03:44
+-- Tempo de geração: 27-Nov-2022 às 21:46
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 8.1.10
 
@@ -67,18 +67,6 @@ CREATE TABLE `tbcategoriaproduto` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tbcliente`
---
-
-CREATE TABLE `tbcliente` (
-  `idCliente` int(11) NOT NULL,
-  `nomeCliente` varchar(150) NOT NULL,
-  `telCliente` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `tbfornecedor`
 --
 
@@ -99,8 +87,7 @@ INSERT INTO `tbfornecedor` (`idFornecedor`, `nomeEmpresaFornecedor`, `nomeFornec
 (1, 'Kibon', 'Levi Emanoel Martin', 'levi_silveira@kibom.com.br', ' (11) 98567-3035', '61.068.276/0001-04.'),
 (2, 'BACIO Di Latte', 'Osvaldo Diogo Nunes', 'osvalado.nunes@baciodilatte.com.br', ' (11) 95433-2930', '11.950.487/0066035'),
 (3, 'Nobrelli', 'Daniela Betina', 'danilea.betina2@nobrelli.com.br', ' (11) 92930-4830 ', '30.621.687/0001-43'),
-(4, 'Nestlé', 'Adriel Ferreira', 'adriel.eferreira@nestle.com.br', ' (11) 93030-2918 ', '60.409.075/0001-52'),
-(5, 'Lacta', 'Vanessa Souza', 'vanessa.souza@mondelez.com.br', ' (11) 95465-3165 ', '04.140.816/0001-71');
+(4, 'Nestlé', 'Adriel Ferreira', 'adriel.eferreira@nestle.com.br', ' (11) 93030-2918 ', '60.409.075/0001-52');
 
 -- --------------------------------------------------------
 
@@ -135,10 +122,9 @@ CREATE TABLE `tbfunc` (
 --
 
 INSERT INTO `tbfunc` (`idFunc`, `cpfFunc`, `rgFunc`, `nomeFunc`, `generoFunc`, `dataNascFunc`, `dataContratoFunc`, `naturalidadeFunc`, `emailFunc`, `telFunc`, `senhaFunc`, `logradouroEndereco`, `numeroEndereco`, `complementoEndereco`, `bairroEndereco`, `cidadeEndereco`, `ufEndereco`, `cepEndereco`, `idCargo`) VALUES
-(1, '123.456.987-12', '54.065.978-1', 'Clarice  Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'cayiv58687@sopulit.com', '(11) 2702-2738', '4365255050', 'R. da Lua', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480', 1),
+(1, '123.456.987-12', '54.065.978-1', 'Clarice Tânia Carolina', 'F', '1990-01-05', '2022-10-04', 'SP', 'ciwip37631@turuma.com', '(11) 2702-2738', 'clarice123', 'R. da Lua', 15, NULL, 'Jd. Ruyce', 'Diadema', 'SP', '09981-480', 1),
 (2, '133.447.988-21', '20.345.433-1', 'Cláudio Paulo Araújo', 'M', '1999-10-23', '1899-03-13', 'BA', 'claudio.paulo.araujo@gmail.com', '(11) 3907-6552', 'claudio123', 'R. Tamoios', 399, '', 'Conceição', 'Diadema', 'SP', '09991-070', 1),
-(3, '417.271.991-04', '40.599.014-3', 'Maria Carvalho Dias', 'F', '2002-04-14', '2021-08-12', 'SP', 'marcia.caroline@gmail.com', '(11) 2506-9252', 'marcia123', 'R. do Socialismo Científico', 100, NULL, 'Conceição', 'Diadema', 'SP', '09993-140', 2),
-(4, '137.921.230-05', '21.300.400-3', 'Rodrigo Juan Claudio', 'M', '1999-07-29', '2022-10-04', 'SP', 'rodrigoduarte06@gmail.com', '(11) 2668-9942', 'rodrigo123', 'R. Glauber Rocha', 40, NULL, 'Serraria', 'Diadema', 'SP', '09980-760', 2);
+(3, '417.271.991-04', '40.599.014-3', 'Maria Carvalho Dias', 'F', '2002-04-14', '2021-08-12', 'SP', 'marcia.caroline@gmail.com', '(11) 2506-9252', 'marcia123', 'R. do Socialismo Científico', 100, NULL, 'Conceição', 'Diadema', 'SP', '09993-140', 2);
 
 -- --------------------------------------------------------
 
@@ -148,8 +134,7 @@ INSERT INTO `tbfunc` (`idFunc`, `cpfFunc`, `rgFunc`, `nomeFunc`, `generoFunc`, `
 
 CREATE TABLE `tbpagamento` (
   `idPagamento` int(11) NOT NULL,
-  `metodoPagamento` varchar(75) NOT NULL,
-  `valorPagamento` decimal(10,0) NOT NULL
+  `metodoPagamento` varchar(75) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -160,10 +145,12 @@ CREATE TABLE `tbpagamento` (
 
 CREATE TABLE `tbpedido` (
   `idPedido` int(11) NOT NULL,
+  `nomeCliente` varchar(150) NOT NULL,
+  `telCliente` varchar(15) DEFAULT NULL,
   `statusPedido` varchar(50) NOT NULL,
   `valorTotalPedido` decimal(10,0) NOT NULL,
   `dataPedido` datetime NOT NULL,
-  `idCliente` int(11) NOT NULL,
+  `idFunc` int(11) NOT NULL,
   `idPagamento` int(11) NOT NULL,
   `idProduto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -186,6 +173,15 @@ CREATE TABLE `tbproduto` (
   `loteProduto` varchar(15) NOT NULL,
   `precoProduto` double(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `tbproduto`
+--
+
+INSERT INTO `tbproduto` (`idProduto`, `idFornecedor`, `nomeProduto`, `descricaoProduto`, `imagemProduto`, `dataVencimentoProduto`, `dataFabricacaoProduto`, `qtdeProduto`, `loteProduto`, `precoProduto`) VALUES
+(20, 1, 'Picolé Tablito', 'Picolé sabor chocolate ao leite envolvido por sorvete de creme e coberto com casquinha de chocolate branco. 72ml', 'tablito.png', '2022-11-24', '2022-08-10', '40', 'L24112022', 8),
+(21, 1, 'Sorvete Magnum ', 'Sorvete de baunilha com lascas crocantes de chocolate branco Magnum. 297g/440ml', 'magnum.png', '2022-12-01', '2022-08-20', '10', 'L20082022', 32),
+(22, 4, 'Sorvete Napolitano', 'Sorvete Napolitano Trio Moça. 1,5L', 'napolitano.png', '2022-12-10', '2022-08-27', '20', 'L10122022', 23);
 
 --
 -- Índices para tabelas despejadas
@@ -212,12 +208,6 @@ ALTER TABLE `tbcategoriaproduto`
   ADD KEY `idProduto` (`idProduto`);
 
 --
--- Índices para tabela `tbcliente`
---
-ALTER TABLE `tbcliente`
-  ADD PRIMARY KEY (`idCliente`);
-
---
 -- Índices para tabela `tbfornecedor`
 --
 ALTER TABLE `tbfornecedor`
@@ -242,8 +232,8 @@ ALTER TABLE `tbpagamento`
 ALTER TABLE `tbpedido`
   ADD PRIMARY KEY (`idPedido`),
   ADD KEY `tbpedido_ibfk_1` (`idPagamento`),
-  ADD KEY `idCliente` (`idCliente`),
-  ADD KEY `idProduto` (`idProduto`);
+  ADD KEY `tbpedido_ibfk_3` (`idProduto`),
+  ADD KEY `idFunc` (`idFunc`);
 
 --
 -- Índices para tabela `tbproduto`
@@ -302,7 +292,7 @@ ALTER TABLE `tbpedido`
 -- AUTO_INCREMENT de tabela `tbproduto`
 --
 ALTER TABLE `tbproduto`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restrições para despejos de tabelas
@@ -325,9 +315,9 @@ ALTER TABLE `tbfunc`
 -- Limitadores para a tabela `tbpedido`
 --
 ALTER TABLE `tbpedido`
-  ADD CONSTRAINT `tbpedido_ibfk_1` FOREIGN KEY (`idPagamento`) REFERENCES `tbpagamento` (`idPagamento`),
-  ADD CONSTRAINT `tbpedido_ibfk_2` FOREIGN KEY (`idCliente`) REFERENCES `tbcliente` (`idCliente`),
-  ADD CONSTRAINT `tbpedido_ibfk_3` FOREIGN KEY (`idProduto`) REFERENCES `tbproduto` (`idProduto`);
+  ADD CONSTRAINT `tbpedido_ibfk_1` FOREIGN KEY (`idPagamento`) REFERENCES `tbpagamento` (`idPagamento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbpedido_ibfk_3` FOREIGN KEY (`idProduto`) REFERENCES `tbproduto` (`idProduto`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbpedido_ibfk_4` FOREIGN KEY (`idFunc`) REFERENCES `tbfunc` (`idFunc`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limitadores para a tabela `tbproduto`
